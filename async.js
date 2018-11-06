@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 
-async function fetchGitHubUser(handle) {
-	const url = `https://api.github.com/users/${handle}`;
+async function fetchFromGitHub(endpoint) {
+	const url = `https://api.github.com${endpoint}`;
 	const response = await fetch(url);
   const body = await response.json();
 
@@ -11,15 +11,16 @@ async function fetchGitHubUser(handle) {
   return body;
 }
 
-async function showGitHubUser(handle) {
+async function showUserAndRepos(handle) {
   try {
-    const user = await fetchGitHubUser(handle)
+    const user = await fetchFromGitHub(`/users/${handle}`);
+    const repos = await fetchFromGitHub(`/users/${handle}/repos`);
     console.log(user.name);
-    console.log(user.location);
+    console.log(`${repos.length} repos`);
   } catch (err) {
     console.log(`Error: ${err.message}`);
 
   }
 }
 
-showGitHubUser('rodrigovallades');
+showUserAndRepos('rodrigovallades');
