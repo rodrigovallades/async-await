@@ -13,8 +13,12 @@ async function fetchFromGitHub(endpoint) {
 
 async function showUserAndRepos(handle) {
   try {
-    const user = await fetchFromGitHub(`/users/${handle}`);
-    const repos = await fetchFromGitHub(`/users/${handle}/repos`);
+    const userPromise = fetchFromGitHub(`/users/${handle}`);
+    const reposPromise = fetchFromGitHub(`/users/${handle}/repos`);
+
+    const user = await userPromise;
+    const repos = await reposPromise;
+
     console.log(user.name);
     console.log(`${repos.length} repos`);
   } catch (err) {
